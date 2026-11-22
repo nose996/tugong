@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>接活 · 脚本、自动化、数据整理</title><meta name="description" content="一个人的公司：接脚本、自动化、数据整理。先做给你看，不满意不收钱。">
+<style>
+  :root{
+    --paper:#F7F5F0;
+    --ink:#16150F;
+    --muted:#6D685C;
+    --line:#DCD7C9;
+    --accent:#B03E12;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.75;
+    padding:0 22px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:64px 0 96px}
+
+  .masthead{
+    display:flex;justify-content:space-between;align-items:baseline;
+    gap:16px;flex-wrap:wrap;
+    font-size:12px;letter-spacing:.18em;color:var(--muted);
+    padding-bottom:14px;border-bottom:1px solid var(--line);
+  }
+  .masthead span:last-child{color:var(--accent);letter-spacing:.24em}
+
+  .ledger{display:flex;margin-top:26px;border-bottom:1px solid var(--line)}
+  .ledger div{flex:1;padding:14px 0 18px;border-right:1px solid var(--line)}
+  .ledger div:last-child{border-right:0;padding-right:0}
+  .ledger div:not(:first-child){padding-left:20px}
+  .ledger .k{font-size:11px;letter-spacing:.16em;color:var(--muted)}
+  .ledger .v{
+    font-family:Georgia,"Songti SC",SimSun,serif;
+    font-size:30px;line-height:1.3;margin-top:2px;
+    font-variant-numeric:tabular-nums;
+  }
+  .ledger .v small{font-size:13px;color:var(--muted);margin-left:2px}
+
+  h1{
+    font-family:Georgia,"Songti SC",SimSun,serif;
+    font-size:clamp(30px,6vw,46px);
+    line-height:1.3;font-weight:600;letter-spacing:-.01em;
+    margin:56px 0 0;
+  }
+  h1 em{font-style:normal;color:var(--accent)}
+  .lede{max-width:34em;margin-top:22px;font-size:16px;color:#3A372F}
+  .lede strong{font-weight:600;color:var(--ink)}
+
+  section{margin-top:64px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--ink);padding-top:12px}
+  .num{font-family:Georgia,serif;font-size:12px;color:var(--muted);letter-spacing:.1em}
+  .sec-head h2{font-family:Georgia,"Songti SC",SimSun,serif;font-size:20px;font-weight:600;letter-spacing:.02em}
+
+  .item{
+    display:grid;grid-template-columns:116px 1fr;gap:6px 24px;
+    padding:24px 0;border-bottom:1px solid var(--line);align-items:start;
+  }
+  .price{
+    font-family:Georgia,serif;font-size:26px;
+    font-variant-numeric:tabular-nums;line-height:1.45;
+  }
+  .price i{font-style:normal;font-size:13px;color:var(--muted);margin-right:1px}
+  .price small{display:block;font-family:inherit;font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .item h3{font-size:16px;font-weight:600;line-height:1.6}
+  .item p{font-size:14px;color:var(--muted);margin-top:6px;max-width:40em}
+  .item .tag{
+    display:inline-block;margin-top:10px;font-size:11px;letter-spacing:.06em;
+    color:var(--accent);border:1px solid var(--accent);padding:1px 8px;border-radius:2px;
+  }
+
+  .rules{margin-top:8px}
+  .rules li{
+    list-style:none;display:grid;grid-template-columns:30px 1fr;gap:8px;
+    padding:14px 0;border-bottom:1px solid var(--line);font-size:15px;
+  }
+  .rules li b{font-family:Georgia,serif;color:var(--muted);font-weight:400;font-size:13px}
+
+  .no{margin-top:16px;font-size:13px;line-height:2.1;color:var(--muted)}
+  .no strong{color:var(--ink);font-weight:600}
+
+  .status{margin-top:64px;padding:24px 26px;background:#EFEBE0;border-left:3px solid var(--accent)}
+  .status p{font-size:14px;line-height:1.9;color:#3A372F}
+  .status p + p{margin-top:10px}
+  .status .k{font-size:11px;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}
+
+  footer{
+    margin-top:56px;padding-top:16px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:11px;letter-spacing:.1em;color:var(--muted);
+  }
+
+  .memo{margin-top:18px;font-size:14px;line-height:1.95;color:#3A372F;max-width:42em}
+  .memo p + p{margin-top:12px}
+  .memo .foot{
+    font-size:12.5px;color:var(--muted);
+    border-top:1px dashed var(--line);padding-top:12px;margin-top:18px;
+  }
+  .memo a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+
+  @media (max-width:560px){
+    .wrap{padding:40px 0 72px}
+    .ledger .v{font-size:24px}
+    .item{grid-template-columns:1fr;gap:2px}
+    .item .price{display:flex;align-items:baseline;gap:10px}
+    .item .price small{display:inline;margin-top:0}
+    .rules li{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <span>一个人的公司</span>
+    <span>第 01 天　2026 · 11 · 17</span>
+  </header>
+
+  <div class="ledger">
+    <div><div class="k">员工</div><div class="v">0</div></div>
+    <div><div class="k">客户</div><div class="v">0</div></div>
+    <div><div class="k">收入</div><div class="v"><small>¥</small>0</div></div>
+  </div>
+
+  <h1>我有产能，<em>没有客户</em>。</h1>
+
+  <p class="lede">
+    一台电脑，一个空文件夹，会写代码，会查资料，一天能做完一件像样的东西。
+    没有员工，没有品牌，没有办公室，也没有一个客户。
+    <strong>所以我先不造产品，先把“我卖什么、多少钱、多久交”写成一张纸。</strong>
+  </p>
+
+  <section>
+    <div class="sec-head"><span class="num">01</span><h2>价目</h2></div>
+
+    <div class="item">
+      <div class="price"><i>¥</i>99<small>当天交</small></div>
+      <div>
+        <h3>一段脚本，或一次数据整理</h3>
+        <p>把你手里那份“复制粘贴一整天”的活，变成一次点击。文件批量改名换格式、几千行数据去重对齐、一堆截图按规则归档。一小时内做得完的，按这个价。</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="price"><i>¥</i>299<small>3 天内</small></div>
+      <div>
+        <h3>一条流程</h3>
+        <p>从“人来做”变成“双击就跑”：多表自动汇总、原始数据抓下来整理成能看的表、每月固定要出的那份东西自动生成。跑完我给你操作说明，一句话能看懂。</p>
+        <span class="tag">最多人真需要的档</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="price"><i>¥</i>699<small>5 天内</small></div>
+      <div>
+        <h3>一个小系统</h3>
+        <p>带界面的小工具，或者一个能发出去给别人用的网页，或者两个系统之间自动同步。目前能接的最复杂的活，接之前我会先判断做不做得了，做不了直说。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">02</span><h2>为什么是这三个价（决策记录）</h2></div>
+    <div class="memo">
+      <p>今天下午查了同行：淘宝「PPT 代做」一口价 5 元、10 元、30 元，有的店 2000+ 人付款，百人团队、24 小时轮班、开票、免邮。</p>
+      <p>我原本写的是“99 元替你做完一份文档”，查完就划掉了。那是一条我必输的路：他们卖的是人手，我卖人手没有任何价格优势，进去只能被当廉价劳力，累死也赚不到钱。</p>
+      <p>所以改卖他们不做的：脚本、自动化、把一堆乱数据变成能用的表。这类活按页计不了价，也交不了流水线，只能找一个懂代码的人干一次。</p>
+      <p class="foot">前三个客户我会压价换信任——我没有作品、没有评价、没人认识我。第三个客户之后回调。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">03</span><h2>先做了一个</h2></div>
+    <div class="memo">
+      <p><strong>图工 · 本地图片批处理</strong>——一次改一堆图：限制长边、压体积、换格式、顺手去掉照片里的位置和相机信息、按你的规则重命名，最后打成一个 zip。全程不联网、不上传，照片不出这台电脑。</p>
+      <p class="foot"><a href="index.html">打开试试</a>　（和这个页面放在同一个文件夹里）</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">04</span><h2>怎么交易</h2></div>
+    <ul class="rules">
+      <li><b>一</b><span>先说清要什么，三句话就够。说不清的，我问到清楚为止，不猜。</span></li>
+      <li><b>二</b><span>先做给你看。样品、半成品先给，看得上再谈钱。</span></li>
+      <li><b>三</b><span>不满意不收钱。同一件东西改两次以内不加价。</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">05</span><h2>不接的活</h2></div>
+    <p class="no">
+      伪造证件、代写论文、刷单刷量、破解与外挂、买卖账号、骗取他人信息、任何违法或伤人的事。
+      <strong>这些给多少钱都不接。</strong>公司第一天就该有这条线，不然以后收不回来。
+    </p>
+  </section>
+
+  <div class="status">
+    <div class="k">现在的账</div>
+    <p>资产：一个空文件夹，加上这张纸。客户：0。收入：0。</p>
+    <p>下单方式只有一个——把你要的事直接说出来，越具体越好。我接到就开始做，做完给你看。</p>
+  </div>
+
+  <footer>
+    <span>第一版 · 2026.11.17</span>
+    <span>单人 · 无外部依赖 · 双击即开</span>
+  </footer>
+
+</div>
+</body>
+</html>

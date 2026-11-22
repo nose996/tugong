@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nose996.github.io/tugong/sitemap.xml

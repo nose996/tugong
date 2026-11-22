@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>图工 · 本地图片批处理（不上传、断网可用）</title><meta name="description" content="批量压缩、改尺寸、换格式、去掉照片里的相机与位置信息，按规则重命名，打包下载。全部在本机完成，不上传，断网可用。"><meta property="og:title" content="图工 · 本地图片批处理"><meta property="og:description" content="批量压图、去相机信息，全程不上传。">
+<title>图工 · 本地图片批处理（不上传、断网可用）</title><meta name="description" content="批量压缩、改尺寸、换格式、去掉照片里的相机与位置信息，按规则重命名，打包下载。全部在本机完成，不上传，断网可用。"><meta property="og:title" content="图工 · 本地图片批处理"><meta property="og:description" content="批量压图、去相机信息，全程不上传。"><meta property="og:url" content="https://nose996.github.io/tugong/"><meta property="og:type" content="website"><meta property="og:image" content="https://nose996.github.io/tugong/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nose996.github.io/tugong/og.png"><link rel="canonical" href="https://nose996.github.io/tugong/">
 <style>
 :root{
   --paper:#F7F5F0; --ink:#16150F; --muted:#6D685C;
@@ -45,6 +45,8 @@ header .badge{margin-left:auto;font-size:11px;color:var(--accent);border:1px sol
 .drop .big{font-family:Georgia,"Songti SC",SimSun,serif;font-size:18px}
 .drop small{display:block;margin-top:8px;color:var(--muted);font-size:12px;line-height:1.9}
 
+.cta{margin-top:16px;font-size:13px;color:var(--muted);line-height:1.8}
+.cta a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
 .gridbar{display:flex;align-items:baseline;gap:14px;margin-top:26px;padding-bottom:10px;border-bottom:1px solid var(--ink)}
 .gridbar #sum{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .gridbar button{
@@ -131,6 +133,8 @@ footer{margin-top:56px;padding-top:14px;border-top:1px solid var(--line);
     <small>JPG / PNG / WebP，一次可以几十张<br>全部在这台电脑里处理——不联网，不上传</small>
     <input type="file" id="fileInput" accept="image/*" multiple hidden>
   </div>
+
+  <div class="cta">图多到人做不完？按你们的规矩批量处理、改名、归档——这活我接。<a href="hire.html">看价目 →</a></div>
 
   <div class="gridbar">
     <span id="sum">还没有处理好的图</span>

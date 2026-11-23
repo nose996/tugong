@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>照片按名单批量改名：Excel 一列名字，一百张图几分钟改完</title>
+<meta name="description" content="把 Excel 里一列名字直接粘进去，拖入图片，按顺序自动改名并打包下载。规则改名、前缀编号、按名单对应都支持，全程不上传。">
+<link rel="canonical" href="https://nose996.github.io/tugong/rename.html">
+<meta property="og:title" content="照片按名单批量改名：Excel 一列名字，一百张图几分钟改完">
+<meta property="og:description" content="把 Excel 里一列名字直接粘进去，拖入图片，按顺序自动改名并打包下载。规则改名、前缀编号、按名单对应都支持，全程不上传。">
+<meta property="og:url" content="https://nose996.github.io/tugong/rename.html">
+<meta property="og:type" content="article">
+<style>
+:root{--paper:#F7F5F0;--ink:#16150F;--muted:#6D685C;--line:#DCD7C9;--accent:#B03E12;--card:#FFF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.85;padding:0 20px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:36px 0 90px}
+.top{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--ink);flex-wrap:wrap}
+.top a{font-family:Georgia,"Songti SC",SimSun,serif;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:.04em}
+.top span{font-size:11px;color:var(--muted);letter-spacing:.1em}
+.crumb{font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:.04em}
+h1{font-family:Georgia,"Songti SC",SimSun,serif;font-size:29px;line-height:1.45;font-weight:600;margin:26px 0 10px;letter-spacing:.02em}
+.lead{font-size:15px;color:#3B372E;margin-bottom:6px}
+h2{font-size:16px;margin:34px 0 10px;padding-left:10px;border-left:3px solid var(--accent);letter-spacing:.04em}
+p{margin:10px 0}
+ol,ul{margin:10px 0 10px 22px}
+li{margin:6px 0}
+.step{border:1px solid var(--line);background:var(--card);padding:14px 16px;margin:10px 0}
+.step b{color:var(--accent);font-size:12px;letter-spacing:.1em;display:block;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:400}
+code{background:#EFEBE0;padding:1px 5px;border-radius:2px;font-family:Consolas,"Courier New",monospace;font-size:13px}
+.q{border-top:1px solid var(--line);padding:14px 0}
+.q b{display:block;margin-bottom:4px}
+.q span{color:var(--muted)}
+.cta{margin:30px 0 0;border:1px solid var(--accent);background:#FBF3EC;padding:16px 18px}
+.cta .t{font-size:15px;margin-bottom:6px}
+.cta a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);margin-right:14px;font-size:14px}
+footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="index.html">图工</a>
+    <span>本地图片批处理</span>
+  </div>
+  <div class="crumb">图工 · 照片按名单批量改名</div>
+
+  <h1>照片按名单批量改名</h1>
+  <p class="lead">手上有一百张图，Excel 里有一列名字，要一张张改成对应的名字——手动做得两小时，还容易错位。这个页面解决的就是这一件事：名单和图片按顺序对应，改完直接打包下载。</p>
+
+  <h2>常见的三种改名规则</h2>
+  <table>
+    <tr><th>规则</th><th>适合什么</th><th>结果长什么样</th></tr>
+    <tr><td>按名单改</td><td>Excel / 表格里已经有每个图的名字</td><td><code>首页banner.jpg</code>、<code>详情_01.jpg</code></td></tr>
+    <tr><td>前缀 + 编号</td><td>要整齐、要按顺序排</td><td><code>图工-001.jpg</code>、<code>图工-002.jpg</code></td></tr>
+    <tr><td>按拍摄日期归档</td><td>一堆散图，想按月分文件夹</td><td><code>2026-11/xxx.jpg</code></td></tr>
+  </table>
+
+  <h2>三步做完</h2>
+  <div class="step"><b>第一步</b>打开 Excel，选中那一列名字，Ctrl+C 复制，粘贴到工具里的「按名单改名」框。一行一个名字，顺序就是图的顺序。表头写 <code>name</code> 或 <code>文件名</code> 会被自动跳过，不会算进名单。</div>
+  <div class="step"><b>第二步</b>把图片全选拖进虚线框。工具按加入顺序，第 1 张对第 1 个名字，第 2 张对第 2 个名字，依次往下。</div>
+  <div class="step"><b>第三步</b>点「打包下载」，得到一个 zip，里面已经是改好的名字。名单比图多或比图少都不会错位：名单用完后，剩下的自动按前缀 + 编号走。</div>
+
+  <h2>几个容易踩的点</h2>
+  <ul>
+    <li><b>顺序怎么定？</b>按你拖进来的顺序。想让顺序稳，先在文件夹里按名称排好，Ctrl+A 全选再一起拖。</li>
+    <li><b>名单里带扩展名行不行？</b>行。<code>详情_01.jpg</code> 这种写法会被识别，扩展名跟着名单走，不用你再统一格式。</li>
+    <li><b>名字里有 / 或 : 怎么办？</b>这类字符在文件名里本来就非法，工具会自动换成下划线，不会报错中断。</li>
+    <li><b>会不会把原图改坏？</b>不会。工具是读进内存重新生成一份，原文件一个字节都不动，改出来的另存成新文件。</li>
+  </ul>
+
+  <h2>要批量、要按复杂规则？</h2>
+  <p>几十张、规则简单，用上面的免费工具就够。要是几百张、要按「客户名 + 日期 + 项目号」这种多层规则，或者名单在好几个表里、还得对不上的先挑出来——这类活我接，按你的规矩跑，先给样品再收钱。</p>
+
+  <div class="cta">
+    <div class="t">嫌一张张点麻烦，把活直接给我：按你的名单和规则跑完，打包发你。</div>
+    <a href="hire.html">看价目 →</a><a href="index.html">先用免费工具 →</a>
+  </div>
+
+  <h2>常见问题</h2>
+    <div class="q"><b>会上传我的照片吗？</b><span>不会。整个页面在你自己电脑的浏览器里跑，没有服务器，断网也能用。图不离开这台电脑。</span></div>
+    <div class="q"><b>Excel 文件能直接拖进去吗？</b><span>目前是复制那一列名字粘贴进去，最稳。工具也支持读 .txt / .csv 名单文件。</span></div>
+    <div class="q"><b>名单和图数量不一致会错位吗？</b><span>不会。名单按顺序消耗，用完以后剩下的图自动按「前缀 + 编号」命名。</span></div>
+    <div class="q"><b>改名后原有顺序会乱吗？</b><span>输出 zip 里的文件按你加入的顺序排列，编号也在名字里，解压后一眼能对上。</span></div>
+
+  <footer>
+    <span>图工 · 一个人的公司 · 照片不出这台电脑</span>
+    <span>要现成的，加微信 nose2520</span>
+  </footer>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"会上传我的照片吗？","acceptedAnswer":{"@type":"Answer","text":"不会。整个页面在你自己电脑的浏览器里跑，没有服务器，断网也能用。图不离开这台电脑。"}},{"@type":"Question","name":"Excel 文件能直接拖进去吗？","acceptedAnswer":{"@type":"Answer","text":"目前是复制那一列名字粘贴进去，最稳。工具也支持读 .txt / .csv 名单文件。"}},{"@type":"Question","name":"名单和图数量不一致会错位吗？","acceptedAnswer":{"@type":"Answer","text":"不会。名单按顺序消耗，用完以后剩下的图自动按「前缀 + 编号」命名。"}},{"@type":"Question","name":"改名后原有顺序会乱吗？","acceptedAnswer":{"@type":"Answer","text":"输出 zip 里的文件按你加入的顺序排列，编号也在名字里，解压后一眼能对上。"}}]}</script>
+</body>
+</html>

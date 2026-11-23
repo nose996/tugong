@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>照片发出去前，把位置信息和相机型号去掉（批量、不上传）</title>
+<meta name="description" content="手机拍的照片默认带 GPS 坐标、相机型号、拍摄时间。批量去掉这些信息再发出去，不用传服务器，几百张一次处理完。">
+<link rel="canonical" href="https://nose996.github.io/tugong/exif.html">
+<meta property="og:title" content="照片发出去前，把位置信息和相机型号去掉（批量、不上传）">
+<meta property="og:description" content="手机拍的照片默认带 GPS 坐标、相机型号、拍摄时间。批量去掉这些信息再发出去，不用传服务器，几百张一次处理完。">
+<meta property="og:url" content="https://nose996.github.io/tugong/exif.html">
+<meta property="og:type" content="article">
+<style>
+:root{--paper:#F7F5F0;--ink:#16150F;--muted:#6D685C;--line:#DCD7C9;--accent:#B03E12;--card:#FFF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.85;padding:0 20px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:36px 0 90px}
+.top{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--ink);flex-wrap:wrap}
+.top a{font-family:Georgia,"Songti SC",SimSun,serif;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:.04em}
+.top span{font-size:11px;color:var(--muted);letter-spacing:.1em}
+.crumb{font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:.04em}
+h1{font-family:Georgia,"Songti SC",SimSun,serif;font-size:29px;line-height:1.45;font-weight:600;margin:26px 0 10px;letter-spacing:.02em}
+.lead{font-size:15px;color:#3B372E;margin-bottom:6px}
+h2{font-size:16px;margin:34px 0 10px;padding-left:10px;border-left:3px solid var(--accent);letter-spacing:.04em}
+p{margin:10px 0}
+ol,ul{margin:10px 0 10px 22px}
+li{margin:6px 0}
+.step{border:1px solid var(--line);background:var(--card);padding:14px 16px;margin:10px 0}
+.step b{color:var(--accent);font-size:12px;letter-spacing:.1em;display:block;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:400}
+code{background:#EFEBE0;padding:1px 5px;border-radius:2px;font-family:Consolas,"Courier New",monospace;font-size:13px}
+.q{border-top:1px solid var(--line);padding:14px 0}
+.q b{display:block;margin-bottom:4px}
+.q span{color:var(--muted)}
+.cta{margin:30px 0 0;border:1px solid var(--accent);background:#FBF3EC;padding:16px 18px}
+.cta .t{font-size:15px;margin-bottom:6px}
+.cta a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);margin-right:14px;font-size:14px}
+footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="index.html">图工</a>
+    <span>本地图片批处理</span>
+  </div>
+  <div class="crumb">图工 · 照片发出去前，先把位置信息去掉</div>
+
+  <h1>照片发出去前，先把位置信息去掉</h1>
+  <p class="lead">手机拍的照片，文件里默认存着拍摄地点的 GPS 坐标、相机型号、精确到秒的时间。发到群里、挂到二手平台、发给客户，这些信息一起跟着走。这个页面讲清楚风险，以及怎么批量去掉。</p>
+
+  <h2>照片里到底藏了什么</h2>
+  <table>
+    <tr><th>字段</th><th>内容</th><th>泄露什么</th></tr>
+    <tr><td>GPS 经纬度</td><td>拍摄地点的精确坐标</td><td>家庭住址、孩子学校、常去的店</td></tr>
+    <tr><td>相机 / 手机型号</td><td>设备品牌型号、镜头参数</td><td>你用什么设备，值多少钱</td></tr>
+    <tr><td>拍摄时间</td><td>精确到秒</td><td>作息规律、什么时候不在家</td></tr>
+    <tr><td>软件与编辑历史</td><td>修图软件、处理记录</td><td>图是不是原拍、有没有修过</td></tr>
+  </table>
+  <p>发二手房、发闲置、发证件照、发娃的照片，最容易踩这个坑——图本身没问题，信息在后面跟着。</p>
+
+  <h2>三步去掉</h2>
+  <div class="step"><b>第一步</b>打开工具页，把要发的图一次拖进去。几十张也行，处理是并行的。</div>
+  <div class="step"><b>第二步</b>设置输出格式和尺寸（发平台一般长边 1600 就够），其余默认。</div>
+  <div class="step"><b>第三步</b>点「打包下载」。导出的图是重新生成的，原始文件里的 GPS、机型、时间不会带过去。</div>
+
+  <h2>为什么要「重新生成」而不是「删字段」</h2>
+  <p>直接改文件的元数据段很容易把图改坏，或者删不干净——有些软件会在缩略图里再存一份。靠谱的做法是：把画面重新画一遍再编码成新文件，新文件里没有旧信息，也就没有残留。</p>
+
+  <h2>顺手能做的事</h2>
+  <ul>
+    <li>体积压下来：手机原图 3–5 MB，长边 1600、质量 80 通常能到 300 KB 上下，发平台不卡。</li>
+    <li>尺寸统一：一批图长边不一致，发出去排版会乱，统一到同一长边就整齐了。</li>
+    <li>格式转换：平台只收 JPG 的时候，WebP / PNG 一起转成 JPG。</li>
+    <li>按日期归档：几百张混在一起，按拍摄月份自动分文件夹。</li>
+  </ul>
+
+  <div class="cta">
+    <div class="t">嫌一张张点麻烦，把活直接给我：按你的名单和规则跑完，打包发你。</div>
+    <a href="hire.html">看价目 →</a><a href="index.html">先用免费工具 →</a>
+  </div>
+
+  <h2>常见问题</h2>
+    <div class="q"><b>去掉信息会损失画质吗？</b><span>重编码会有轻微损失，把质量设在 80 以上、长边不低于原图常用尺寸，肉眼基本看不出。</span></div>
+    <div class="q"><b>能只去位置、保留拍摄时间吗？</b><span>免费工具的做法是全部去掉（重新生成的文件不含任何原始元数据）。要精确保留某些字段，得用专门的元数据编辑器。</span></div>
+    <div class="q"><b>几百张一次能处理完吗？</b><span>可以，浏览器里并行处理，一次几十到几百张都跑得动。图越多，占的内存越多，建议分批。</span></div>
+    <div class="q"><b>会不会上传到服务器？</b><span>不会。处理全在你本机的浏览器里完成，断网也能用。</span></div>
+
+  <footer>
+    <span>图工 · 一个人的公司 · 照片不出这台电脑</span>
+    <span>要现成的，加微信 nose2520</span>
+  </footer>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"去掉信息会损失画质吗？","acceptedAnswer":{"@type":"Answer","text":"重编码会有轻微损失，把质量设在 80 以上、长边不低于原图常用尺寸，肉眼基本看不出。"}},{"@type":"Question","name":"能只去位置、保留拍摄时间吗？","acceptedAnswer":{"@type":"Answer","text":"免费工具的做法是全部去掉（重新生成的文件不含任何原始元数据）。要精确保留某些字段，得用专门的元数据编辑器。"}},{"@type":"Question","name":"几百张一次能处理完吗？","acceptedAnswer":{"@type":"Answer","text":"可以，浏览器里并行处理，一次几十到几百张都跑得动。图越多，占的内存越多，建议分批。"}},{"@type":"Question","name":"会不会上传到服务器？","acceptedAnswer":{"@type":"Answer","text":"不会。处理全在你本机的浏览器里完成，断网也能用。"}}]}</script>
+</body>
+</html>

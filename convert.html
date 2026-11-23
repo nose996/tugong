@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一堆图统一转成 JPG / WebP、统一尺寸、压到平台要求以内</title>
+<meta name="description" content="平台只收 JPG？要求小于 2MB？长边要统一？把一批图拖进去，一次转完格式、尺寸和体积，打包下载，不上传。">
+<link rel="canonical" href="https://nose996.github.io/tugong/convert.html">
+<meta property="og:title" content="一堆图统一转成 JPG / WebP、统一尺寸、压到平台要求以内">
+<meta property="og:description" content="平台只收 JPG？要求小于 2MB？长边要统一？把一批图拖进去，一次转完格式、尺寸和体积，打包下载，不上传。">
+<meta property="og:url" content="https://nose996.github.io/tugong/convert.html">
+<meta property="og:type" content="article">
+<style>
+:root{--paper:#F7F5F0;--ink:#16150F;--muted:#6D685C;--line:#DCD7C9;--accent:#B03E12;--card:#FFF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.85;padding:0 20px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:36px 0 90px}
+.top{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--ink);flex-wrap:wrap}
+.top a{font-family:Georgia,"Songti SC",SimSun,serif;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:.04em}
+.top span{font-size:11px;color:var(--muted);letter-spacing:.1em}
+.crumb{font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:.04em}
+h1{font-family:Georgia,"Songti SC",SimSun,serif;font-size:29px;line-height:1.45;font-weight:600;margin:26px 0 10px;letter-spacing:.02em}
+.lead{font-size:15px;color:#3B372E;margin-bottom:6px}
+h2{font-size:16px;margin:34px 0 10px;padding-left:10px;border-left:3px solid var(--accent);letter-spacing:.04em}
+p{margin:10px 0}
+ol,ul{margin:10px 0 10px 22px}
+li{margin:6px 0}
+.step{border:1px solid var(--line);background:var(--card);padding:14px 16px;margin:10px 0}
+.step b{color:var(--accent);font-size:12px;letter-spacing:.1em;display:block;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:400}
+code{background:#EFEBE0;padding:1px 5px;border-radius:2px;font-family:Consolas,"Courier New",monospace;font-size:13px}
+.q{border-top:1px solid var(--line);padding:14px 0}
+.q b{display:block;margin-bottom:4px}
+.q span{color:var(--muted)}
+.cta{margin:30px 0 0;border:1px solid var(--accent);background:#FBF3EC;padding:16px 18px}
+.cta .t{font-size:15px;margin-bottom:6px}
+.cta a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);margin-right:14px;font-size:14px}
+footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="index.html">图工</a>
+    <span>本地图片批处理</span>
+  </div>
+  <div class="crumb">图工 · 一堆图统一转格式、统一尺寸、压到要求以内</div>
+
+  <h1>一堆图统一转格式、统一尺寸、压到要求以内</h1>
+  <p class="lead">上传商品图、发公众号、交作业、投稿——每个地方都有格式和体积的要求：只要 JPG、单张不超过 2 MB、长边不能超过 2000。一批图一张张处理最费时间，这里给一套能直接照抄的参数。</p>
+
+  <h2>照抄这套参数就够</h2>
+  <table>
+    <tr><th>场景</th><th>输出格式</th><th>长边</th><th>质量</th><th>大概体积</th></tr>
+    <tr><td>电商主图 / 详情页</td><td>JPG</td><td>1600</td><td>82%</td><td>200–500 KB</td></tr>
+    <tr><td>公众号正文配图</td><td>JPG</td><td>1280</td><td>80%</td><td>150–300 KB</td></tr>
+    <tr><td>网站 / 页面装饰</td><td>WebP</td><td>1600</td><td>80%</td><td>80–200 KB</td></tr>
+    <tr><td>头像 / 缩略图</td><td>JPG</td><td>400</td><td>85%</td><td>20–60 KB</td></tr>
+    <tr><td>需要透明背景</td><td>PNG</td><td>按需要</td><td>不适用</td><td>较大，慎用</td></tr>
+  </table>
+  <p>长边设 0 表示不缩放。质量只对 JPG / WebP 生效，PNG 是无损格式，调质量没用。</p>
+
+  <h2>三步做完</h2>
+  <div class="step"><b>第一步</b>把图拖进工具页。格式选「JPG」，长边填 1600，质量拉到 82。</div>
+  <div class="step"><b>第二步</b>等卡片变绿，每张下面会显示「原体积 → 新体积、省了多少」。心里有数再下载。</div>
+  <div class="step"><b>第三步</b>点「打包下载」，一个 zip 拿到全部结果；只有一张时直接给文件，不套 zip。</div>
+
+  <h2>为什么有时体积反而变大</h2>
+  <ul>
+    <li><b>PNG 转 PNG</b>：相当于重新编码一次，没好处，体积可能变大。要么转 JPG，要么别转。</li>
+    <li><b>小图放大</b>：长边填得比原图还大，工具会放大，体积自然涨。填 0 或填小于原图的值。</li>
+    <li><b>已经压过的图再压</b>：微信、平台已经压过一轮，再压收益很小，甚至因为重新编码变大。</li>
+  </ul>
+
+  <h2>转完还要按规矩命名 / 归档？</h2>
+  <p>同一个工具里能一起做：按 Excel 名单改名、按前缀加编号、按拍摄日期分文件夹（输出 zip 里就是分好的目录）。规则特别复杂、量特别大的，直接给我，我按你的规矩跑完发你。</p>
+
+  <div class="cta">
+    <div class="t">嫌一张张点麻烦，把活直接给我：按你的名单和规则跑完，打包发你。</div>
+    <a href="hire.html">看价目 →</a><a href="index.html">先用免费工具 →</a>
+  </div>
+
+  <h2>常见问题</h2>
+    <div class="q"><b>WebP 兼容性有问题吗？</b><span>主流浏览器、安卓、新版 iOS 都支持。要发给不确定设备的人，用 JPG 最保险。</span></div>
+    <div class="q"><b>能压到指定 KB 以内吗？</b><span>工具给的是尺寸 + 质量两个旋钮，不是按目标体积自动算。看着卡片上的体积，调长边或质量，几次就能到位。</span></div>
+    <div class="q"><b>会丢失透明背景吗？</b><span>转 JPG 会填白底（JPG 不支持透明），要透明就用 PNG 或 WebP。</span></div>
+    <div class="q"><b>一次能处理多少张？</b><span>几十到几百张都可以，图越多越吃内存，建议一次不超过 300 张。</span></div>
+
+  <footer>
+    <span>图工 · 一个人的公司 · 照片不出这台电脑</span>
+    <span>要现成的，加微信 nose2520</span>
+  </footer>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"WebP 兼容性有问题吗？","acceptedAnswer":{"@type":"Answer","text":"主流浏览器、安卓、新版 iOS 都支持。要发给不确定设备的人，用 JPG 最保险。"}},{"@type":"Question","name":"能压到指定 KB 以内吗？","acceptedAnswer":{"@type":"Answer","text":"工具给的是尺寸 + 质量两个旋钮，不是按目标体积自动算。看着卡片上的体积，调长边或质量，几次就能到位。"}},{"@type":"Question","name":"会丢失透明背景吗？","acceptedAnswer":{"@type":"Answer","text":"转 JPG 会填白底（JPG 不支持透明），要透明就用 PNG 或 WebP。"}},{"@type":"Question","name":"一次能处理多少张？","acceptedAnswer":{"@type":"Answer","text":"几十到几百张都可以，图越多越吃内存，建议一次不超过 300 张。"}}]}</script>
+</body>
+</html>
